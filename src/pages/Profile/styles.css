@@ -1,0 +1,63 @@
+.container2{
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container2 .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 20px;
+    text-decoration: none;
+    color: red;
+}
+
+.container2 .card {
+    width: 500px;
+    background-color: antiquewhite;
+    height: 400px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container2.card h1 {
+    margin-bottom: 50px;
+    font-size: 2.5em;
+}
+
+.container2 .card div {
+    display: flex;
+    flex-direction: column;
+}
+
+.container2 .card div input {
+    width: 280px;
+    height: 40px;
+    border-radius: 10px;
+    border: 0;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.container2 .card div button {
+    width: 280px;
+    height: 40px;
+    border-radius: 10px;
+    border: 0;
+    background-color: greenyellow;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.container2 .card div button:hover {
+    background-color: rgb(189, 252, 94);
+    cursor: pointer;
+}
