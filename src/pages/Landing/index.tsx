@@ -25,12 +25,6 @@ function Landing() {
     setUsers(users.filter(user => user.id !== id))
   }
 
-  async function handleUpdate(id: number) {
-    await api.get(`users/${id}`)
-
-    setUsers(users.filter(user => user.id !== id))
-  }
-
   return(
       <div className="container">
           {users.map(user => {
@@ -40,7 +34,7 @@ function Landing() {
                     <section>
                       <button onClick={() => handleDelete(user.id)}>X</button>
                     </section>
-                <Link onClick={() => handleUpdate(user.id)} to="/profile" style={{textDecoration: "none", color: "#000"}}>
+                <Link to="/profile"  style={{textDecoration: "none", color: "#000"}}>
                     <h2><strong>Nome: </strong>{user.name}</h2>
                     <p><strong>Sobre: </strong>{user.sobre}</p>
                 </Link>
