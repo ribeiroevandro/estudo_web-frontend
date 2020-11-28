@@ -7,47 +7,40 @@ import api from '../../services/api';
 
 import './styles.css';
 import Input from '../../components/Input';
+import { useAuth } from '../../hooks/auth';
 
 interface IUser {
-    id: number;
-    name: string;
-    sobre: string;
-}
-
-interface IEditUser {
+    id: string;
     name: string;
     sobre: string;
 }
 
 const Profile: React.FC = () => {
-    const history = useHistory();
-    const [editingUser, setEditingUser] = useState<IUser>({} as IUser)
-    const [users, setUsers] = useState<IUser[]>([])
     const formRef = useRef<FormHandles>(null);
+    const history = useHistory();
 
-    async function handleUpdate(user: Omit<IUser, 'id'>): Promise<void> {
-        try {
-            const response = await api.put(`/users/${editingUser.id}`, {
-                ...editingUser,
-                ...user
-            })
+    const { user, updateUser } = useAuth();
 
-            setUsers(
-                users.map(mappedUser =>
-                    mappedUser.id === editingUser.id ? { ...response.data } : mappedUser,  
-                ),
-            )
-        } catch (err) {
-            alert('err')
-        }
-    }
+    const handleUpdateSubmit = useCallback(async (data: IUser) => {
+            try {
+                const { id, name, sobre } = data
 
-    const handleSubmit = useCallback(
-        async (data: IEditUser) => {
-            handleUpdate(data);
+                const formData = {
+                    id,
+                    name, 
+                    sobre,
+                }
+                const response = await api.put(`/users/${formData.id}`, formData)
 
-            history.push('/')
-    }, [handleUpdate])
+                updateUser(response.data)
+
+                console.log(response)
+
+                history.push('/')
+            } catch (err) {
+                console.log(err)
+            }
+    }, [history, updateUser])
 
   return (
       <div className="container2">
@@ -58,11 +51,14 @@ const Profile: React.FC = () => {
             <h1>Perfil</h1>
 
             <div>
-                <Form onSubmit={handleSubmit} ref={formRef} initialData={editingUser}>
-                    <Input name="name" placeholder="Nome" />
-                    <Input name="sobre" placeholder="Sobre" />
-                    <button type="submit" >Atualizar perfil</button>
-                </Form>
+                    <Form 
+                        ref={formRef} 
+                        onSubmit={handleUpdateSubmit} 
+                        initialData={user}>
+                        <Input name="name" placeholder="Nome" />
+                        <Input name="sobre" placeholder="Sobre" />
+                        <button type="submit" >Atualizar perfil</button>
+                    </Form>
             </div>
           </div>
       </div>
